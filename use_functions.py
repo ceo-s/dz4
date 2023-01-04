@@ -22,11 +22,13 @@
 сохраняем покупку в историю
 выходим в основное меню
 
-3. история покупок
+3. баланс
+
+4. история покупок
 выводим историю покупок пользователя (название и сумму)
 возвращаемся в основное меню
 
-4. выход
+5. выход
 выход из программы
 
 При выполнении задания можно пользоваться любыми средствами
@@ -34,20 +36,64 @@
 Для реализации основного меню можно использовать пример ниже или написать свой
 """
 
-while True:
-    print('1. пополнение счета')
-    print('2. покупка')
-    print('3. история покупок')
-    print('4. выход')
 
-    choice = input('Выберите пункт меню')
+class Person:
+    wallet = 0
+    goods = ["1. Вода", "2. Квас", "3. Молоко", "4. Лимонад", "5. Чай", "6. Кофе"]
+    prices = [10, 15, 15, 12, 20, 20]
+    #market = dict(zip(goods, ))
+    history = []
+
+
+
+def balance_add(sum, clas):
+    clas.wallet += int(sum)
+
+def market(clas):    
+    for good in clas.goods:
+        print(good, clas.prices[clas.goods.index(good)])
+
+def buy(number, clas):
+    chosen_price = clas.prices[int(number)-1]
+    if chosen_price <= clas.wallet:
+        clas.wallet -= chosen_price
+        clas.history += [clas.goods[int(number)-1]]
+        print(f"Вы купили {clas.goods[int(number)-1]}")
+    else:
+        print("\nНедостаточно средств!")
+
+def get_history(clas):
+    if clas.history == []:
+        print("Вы ещё ничего не купили!")
+    else:
+        print("-"*20,"\nИстория покупок: ")
+        [print(i) for i in clas.history]
+        print("-"*20)
+    
+
+def check_balance(clas):
+    print(f"\nВаш баланс = {clas.wallet}")
+
+
+while True:
+    print("  Главное меню!")
+    print('|1. пополнение счета')
+    print('|2. покупка')
+    print('|3. баланс')
+    print('|4. история покупок')
+    print('|5. выход')
+
+    choice = input('\nВыберите пункт меню: ')
     if choice == '1':
-        pass
+        balance_add(input("\nВведдите сумму пополнения: "), Person)
     elif choice == '2':
-        pass
+        market(Person)
+        buy(input("\nВведите номер товара: "), Person)
     elif choice == '3':
-        pass
+        check_balance(Person)
     elif choice == '4':
+        get_history(Person)
+    elif choice == '5':
         break
     else:
-        print('Неверный пункт меню')
+        print('\nНеверный пункт меню!')
